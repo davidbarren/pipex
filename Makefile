@@ -20,6 +20,8 @@ LIBFT = $(LIBFTPATH)/libft.a
 SRCS = main.c\
 arg_checks.c\
 errors.c\
+parent_process.c\
+child_process.c\
 
 
 OBJS= $(SRCS:.c=.o)

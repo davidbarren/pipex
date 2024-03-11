@@ -12,13 +12,34 @@
 
 #include "pipex.h"
 
-int	check_args(int ac, char **av, t_pipex *pipex)
+int	check_args(int ac, t_pipex *pipex)
 {
 	if (ac != 5)
-		return (0);
-	pipex->io_fds[0] = open(av[1], O_RDONLY);
-	pipex->io_fds[1] = open(av[4], O_WRONLY);
-	if (pipex->io_fds[0] == -1 || pipex->io_fds[1] == -1)
+		ft_printf("More than 4 args!");
+		// return (0);
+	pipex->fd = pipe(pipex->io_fds);
+	if (pipex->fd == -1)
 		return (0);
 	return (1);
+}
+
+void	get_path(char **envp, t_pipex *pipex)
+{
+	int		i;
+	char	*path;
+
+	i = 0;
+	while (envp[i])
+	{
+		path = ft_strnstr(envp[i], "PATH", ft_strlen(envp[i]));
+		if (path)
+			break ;
+		i++;
+	}
+	if (!path)
+		perror("Pipex");
+	pipex->paths = ft_split(path, ':');
+	i = 0;
+	while (pipex->paths[i])
+		ft_printf("%s\n", pipex->paths[i++]);
 }

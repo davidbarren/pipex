@@ -19,13 +19,22 @@
 typedef struct s_pipex
 {
 	int		io_fds[2];
-	char	buffer[30];
+	int		*pid;
+	int		fd;
+	char	**paths;
+	int		pid_index;
+	int		av_index;
 }	t_pipex;
 
 /* ************************************************************************** */
 /*  Error Handling Functions                                                  */
 /* ************************************************************************** */
-int		check_args(int ac, char **av, t_pipex *pipex);
+int		check_args(int ac, t_pipex *pipex);
 void	ft_error_exit(void);
-
+void	get_path(char **envp, t_pipex *pipex);
+/* ************************************************************************** */
+/*  Parent_Process.c                                                          */
+/* ************************************************************************** */
+void	init_forks(int ac, char **av, char **envp, t_pipex *pipex);
+void	exec_command(t_pipex *pipex, char **argv, char **envp);
 #endif

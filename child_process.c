@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/07 14:15:40 by dbarrene         ###   ########.fr       */
+/*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
+/*   Updated: 2024/03/11 11:05:36 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	exec_command(t_pipex *pipex, char **argv, char **envp)
 {
-	t_pipex	piper;
+	int	status;
+	int	i;
 
-	if (!envp)
-		ft_printf("Baboons!");
-	if (!check_args(argc, &piper))
-		ft_error_exit();
-	get_path(envp, &piper);
-	init_forks(argc, argv, envp, &piper);
-	return (1);
+	i = 0;
+	while (pipex->paths[i])
+	{
+		status = access(pipex->paths[i], R_OK);
+		if (status)
+			ft_error_exit();
+		status = execve(pipex->paths[i], argv, envp);
+		if (status == -1)
+			ft_error_exit();
+		i++;
+	}
 }
