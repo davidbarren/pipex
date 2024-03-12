@@ -1,9 +1,0 @@
-Makefile
-arg_checks.c
-errors.c
-infile.txt
-libft
-main.c
-outfile.txt
-pipex
-pipex.h

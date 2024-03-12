@@ -19,11 +19,13 @@
 typedef struct s_pipex
 {
 	int		io_fds[2];
-	int		*pid;
+	int		pid;
 	int		fd;
 	char	**paths;
 	int		pid_index;
 	int		av_index;
+	char	*exec_path;
+	char	**parsed_cmd;
 }	t_pipex;
 
 /* ************************************************************************** */
@@ -37,4 +39,6 @@ void	get_path(char **envp, t_pipex *pipex);
 /* ************************************************************************** */
 void	init_forks(int ac, char **av, char **envp, t_pipex *pipex);
 void	exec_command(t_pipex *pipex, char **argv, char **envp);
+char	*ft_strjoin_sep(char *s1, char *s2, char sep);
+void	prep_command(char *cmd, t_pipex *pipex);
 #endif

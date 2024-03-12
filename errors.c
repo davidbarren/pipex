@@ -14,6 +14,6 @@
 
 void	ft_error_exit(void)
 {
-	perror("Pipex");
+	perror("Pipex error");
 	exit (-1);
 }

@@ -22,6 +22,8 @@ arg_checks.c\
 errors.c\
 parent_process.c\
 child_process.c\
+helper_funcs.c\
+
 
 
 OBJS= $(SRCS:.c=.o)

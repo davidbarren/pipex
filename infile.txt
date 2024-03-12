@@ -1,1 +1,0 @@
-Hello my friend I want to write this into outfile

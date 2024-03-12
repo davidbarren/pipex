@@ -18,14 +18,42 @@ void	exec_command(t_pipex *pipex, char **argv, char **envp)
 	int	i;
 
 	i = 0;
+	prep_command(argv[2], pipex);
 	while (pipex->paths[i])
 	{
-		status = access(pipex->paths[i], R_OK);
-		if (status)
-			ft_error_exit();
-		status = execve(pipex->paths[i], argv, envp);
-		if (status == -1)
-			ft_error_exit();
+		status = access(pipex->paths[i], X_OK);
+			if (!status)
+			{
+				status = execve(pipex->paths[i], pipex->parsed_cmd, envp);
+		 		if (status == -1)
+					ft_printf("execve failed\n");
+			}
+				i++;
+	}
+}
+
+void	prep_command(char *cmd, t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_strncmp(cmd, "./", 2))
+		cmd += 2;
+	if (ft_strchr(cmd, ' '))
+		pipex->parsed_cmd = ft_split(cmd, ' ');
+	else
+		pipex->parsed_cmd = &cmd;
+	if (!pipex->parsed_cmd)
+		ft_printf("HUH?");
+	while (pipex->paths[i])
+	{
+		pipex->paths[i]= ft_strjoin_sep(pipex->paths[i], pipex->parsed_cmd[0], '/');
 		i++;
 	}
+	// i = 0;
+	// while (pipex->paths[i])
+	// 	ft_printf("Path:%s\n", pipex->paths[i++]);
+	// i = 0;
+	// while (pipex->parsed_cmd[i])
+	// 	ft_printf("Parsed_cmd:%s\n", pipex->parsed_cmd[i++]);
 }

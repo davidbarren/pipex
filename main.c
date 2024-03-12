@@ -19,8 +19,12 @@ int	main(int argc, char **argv, char **envp)
 	if (!envp)
 		ft_printf("Baboons!");
 	if (!check_args(argc, &piper))
-		ft_error_exit();
+		ft_printf("wrong arg count! fix later!");
+		// return (1);
 	get_path(envp, &piper);
+	// int	i = 0;
+	// while (piper.paths[i])
+		// ft_printf("%s\n", piper.paths[i++]);
 	init_forks(argc, argv, envp, &piper);
-	return (1);
+	return (0);
 }

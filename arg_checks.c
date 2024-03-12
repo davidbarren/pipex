@@ -15,11 +15,13 @@
 int	check_args(int ac, t_pipex *pipex)
 {
 	if (ac != 5)
-		ft_printf("More than 4 args!");
-		// return (0);
+		return (0);
 	pipex->fd = pipe(pipex->io_fds);
 	if (pipex->fd == -1)
+	{
+		ft_printf("Pipe opening error");
 		return (0);
+	}
 	return (1);
 }
 
@@ -31,15 +33,15 @@ void	get_path(char **envp, t_pipex *pipex)
 	i = 0;
 	while (envp[i])
 	{
-		path = ft_strnstr(envp[i], "PATH", ft_strlen(envp[i]));
+		path = ft_strnstr(envp[i], "PATH=", ft_strlen(envp[i]));
 		if (path)
+		{
+			path += 5;
 			break ;
+		}
 		i++;
 	}
 	if (!path)
-		perror("Pipex");
+		perror("Pipe baboon");
 	pipex->paths = ft_split(path, ':');
-	i = 0;
-	while (pipex->paths[i])
-		ft_printf("%s\n", pipex->paths[i++]);
 }
