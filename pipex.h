@@ -26,6 +26,8 @@ typedef struct s_pipex
 	int		av_index;
 	char	*exec_path;
 	char	**parsed_cmd;
+	int		*status_in;
+	int		*status_out;
 }	t_pipex;
 
 /* ************************************************************************** */
@@ -37,8 +39,13 @@ void	get_path(char **envp, t_pipex *pipex);
 /* ************************************************************************** */
 /*  Parent_Process.c                                                          */
 /* ************************************************************************** */
-void	init_forks(int ac, char **av, char **envp, t_pipex *pipex);
-void	exec_command(t_pipex *pipex, char **argv, char **envp);
+void	init_forks(char **av, char **envp, t_pipex *pipex);
+void	exec_command(t_pipex *pipex, char **argv, char **envp, int an);
 char	*ft_strjoin_sep(char *s1, char *s2, char sep);
 void	prep_command(char *cmd, t_pipex *pipex);
+/* ************************************************************************** */
+/*  Parent_Process.c                                                          */
+/* ************************************************************************** */
+void	child_input(char **av, t_pipex *pipex, char **envp);
+void	child_output(char **av, t_pipex *pipex, char **envp);
 #endif
