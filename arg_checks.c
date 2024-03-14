@@ -19,7 +19,7 @@ int	check_args(int ac, t_pipex *pipex)
 	pipex->fd = pipe(pipex->io_fds);
 	if (pipex->fd == -1)
 	{
-		ft_printf("Pipe opening error");
+		ft_error_exit();
 		return (0);
 	}
 	return (1);
@@ -42,6 +42,6 @@ void	get_path(char **envp, t_pipex *pipex)
 		i++;
 	}
 	if (!path)
-		perror("Pipe baboon");
+		ft_error_exit();
 	pipex->paths = ft_split(path, ':');
 }

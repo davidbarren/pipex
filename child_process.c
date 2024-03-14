@@ -30,7 +30,7 @@ void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 			{
 				exec_st = execve(pipex->paths[i], pipex->parsed_cmd, envp);
 				if (exec_st == -1)
-					ft_printf("execve failed\n");
+					ft_error_exit();
 			}
 		}
 		i++;
@@ -46,11 +46,40 @@ void	prep_command(char *cmd, t_pipex *pipex)
 		cmd += 2;
 	pipex->parsed_cmd = ft_split(cmd, ' ');
 	if (!pipex->parsed_cmd)
-		ft_printf("HUH?");
+		ft_error_exit();
 	while (pipex->paths[i])
 	{
 		pipex->paths[i] = ft_strjoin_sep(pipex->paths[i], \
 		pipex->parsed_cmd[0], '/');
 		i++;
 	}
+}
+
+void	child_input(char **av, t_pipex *pipex, char **envp)
+{
+	int	fd_in;
+
+	fd_in = open(av[1], O_RDONLY);
+	if (fd_in == -1)
+		ft_error_exit();
+	dup2(fd_in, STDIN_FILENO);
+	close(fd_in);
+	dup2(pipex->io_fds[1], STDOUT_FILENO);
+	close(pipex->io_fds[1]);
+	close(pipex->io_fds[0]);
+	exec_command(pipex, av, envp, 2);
+}
+
+void	child_output(char **av, t_pipex *pipex, char **envp)
+{
+	int	fd_out;
+
+	fd_out = open(av[4], O_RDWR | O_CREAT, 0644);
+	if (fd_out == -1)
+		ft_error_exit();
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_out);
+	dup2(pipex->io_fds[0], STDIN_FILENO);
+	close(pipex->io_fds[0]);
+	exec_command(pipex, av, envp, 3);
 }
