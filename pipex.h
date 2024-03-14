@@ -24,11 +24,17 @@ typedef struct s_pipex
 	char	**parsed_cmd;
 }	t_pipex;
 
+typedef enum s_errco
+{
+	EMPTY_STR = -1,
+	FAKE_CMD = -2,
+}	t_errco;
+
 /* ************************************************************************** */
 /*  Error Handling Functions                                                  */
 /* ************************************************************************** */
 int		check_args(int ac, t_pipex *pipex);
-void	ft_error_exit(void);
+void	ft_error_exit(int errnum);
 void	get_path(char **envp, t_pipex *pipex);
 void	free_split(char **args);
 /* ************************************************************************** */

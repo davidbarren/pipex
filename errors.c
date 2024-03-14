@@ -12,8 +12,10 @@
 
 #include "pipex.h"
 
-void	ft_error_exit(void)
+void	ft_error_exit(int errnum)
 {
-	perror("Pipex error");
-	exit (-1);
+	if (errnum == -1)
+		ft_printerror("Pipex: permission denied:\n");
+	// perror("Pipex error");
+	exit (errnum);
 }

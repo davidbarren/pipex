@@ -19,7 +19,7 @@ int	check_args(int ac, t_pipex *pipex)
 	pipex->fd = pipe(pipex->io_fds);
 	if (pipex->fd == -1)
 	{
-		ft_error_exit();
+		ft_error_exit(0);
 		return (0);
 	}
 	return (1);
@@ -42,6 +42,6 @@ void	get_path(char **envp, t_pipex *pipex)
 		i++;
 	}
 	if (!path)
-		ft_error_exit();
+		ft_error_exit(0);
 	pipex->paths = ft_split(path, ':');
 }

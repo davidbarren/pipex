@@ -27,9 +27,9 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	piper;
 
 	if (!envp)
-		ft_error_exit();
+		ft_error_exit(0);
 	if (!check_args(argc, &piper))
-		ft_error_exit();
+		ft_error_exit(0);
 	get_path(envp, &piper);
 	init_forks(argv, envp, &piper);
 	// free_split(piper.parsed_cmd);
