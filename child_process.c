@@ -36,6 +36,8 @@ void	prep_command(char *cmd, t_pipex *pipex)
 	int	i;
 
 	i = 0;
+	if (!pipex->paths)
+		ft_error_exit(FAKE_CMD, pipex);
 	if (cmd[0] == '\0')
 		ft_error_exit(EMPTY_STR, pipex);
 	if (!ft_strncmp(cmd, "./", 2))
@@ -57,7 +59,7 @@ void	child_input(char **av, t_pipex *pipex, char **envp)
 
 	fd_in = open(av[1], O_RDONLY);
 	if (fd_in == -1)
-		ft_error_exit(0, pipex);
+		ft_error_exit(NO_INPUT, pipex);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	dup2(pipex->io_fds[1], STDOUT_FILENO);

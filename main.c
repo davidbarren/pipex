@@ -28,12 +28,13 @@ int	main(int argc, char **argv, char **envp)
 
 	piper.fok_flag = 0;
 	piper.xok_flag = 0;
+	piper.av = argv;
 	if (!envp)
 		ft_error_exit(NO_PATH, &piper);
 	if (!check_args(argc, &piper))
-		ft_error_exit(0, &piper);
+		perror("Pipex:");
 	get_path(envp, &piper);
 	init_forks(argv, envp, &piper);
-	// free_split(piper.parsed_cmd);
+	// system("leaks pipex");
 	return (0);
 }

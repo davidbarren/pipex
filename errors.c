@@ -19,8 +19,15 @@ void	ft_error_exit(int errnum, t_pipex *pipex)
 	if (errnum == FAKE_CMD)
 		ft_printerror("Pipex: command not found: %s\n", \
 		pipex->av[pipex->av_index]);
-	if (errnum == -5)
-		ft_printerror("File does not exist \n");
+	if (errnum == NO_INPUT)
+	{
+		ft_printerror("Pipex: no such file or directory: %s\n", pipex->av[1]);
+		exit (3);
+	}
+	if (errnum == NO_PATH)
+	{
+		return ;
+	}
 	free_split(pipex->paths);
 	free_split(pipex->parsed_cmd);
 	exit (errnum);
