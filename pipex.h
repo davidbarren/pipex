@@ -22,19 +22,27 @@ typedef struct s_pipex
 	int		fd;
 	char	**paths;
 	char	**parsed_cmd;
+	int		fok_flag;
+	int		xok_flag;
+	int		path_index;
+	char 	**av;
+	int		av_index;
 }	t_pipex;
 
 typedef enum s_errco
 {
 	EMPTY_STR = -1,
 	FAKE_CMD = -2,
+	NO_PATH = -3,
+	BAD_PERM = -4,
+	NO_INPUT = -5,
 }	t_errco;
 
 /* ************************************************************************** */
 /*  Error Handling Functions                                                  */
 /* ************************************************************************** */
 int		check_args(int ac, t_pipex *pipex);
-void	ft_error_exit(int errnum);
+void	ft_error_exit(int errnum, t_pipex *pipex);
 void	get_path(char **envp, t_pipex *pipex);
 void	free_split(char **args);
 /* ************************************************************************** */
@@ -49,4 +57,5 @@ void	exec_command(t_pipex *pipex, char **argv, char **envp, int an);
 void	child_input(char **av, t_pipex *pipex, char **envp);
 void	child_output(char **av, t_pipex *pipex, char **envp);
 void	prep_command(char *cmd, t_pipex *pipex);
+void	check_access(t_pipex *pipex);
 #endif

@@ -12,10 +12,16 @@
 
 #include "pipex.h"
 
-void	ft_error_exit(int errnum)
+void	ft_error_exit(int errnum, t_pipex *pipex)
 {
-	if (errnum == -1)
+	if (errnum == EMPTY_STR)
 		ft_printerror("Pipex: permission denied:\n");
-	// perror("Pipex error");
+	if (errnum == FAKE_CMD)
+		ft_printerror("Pipex: command not found: %s\n", \
+		pipex->av[pipex->av_index]);
+	if (errnum == -5)
+		ft_printerror("File does not exist \n");
+	free_split(pipex->paths);
+	free_split(pipex->parsed_cmd);
 	exit (errnum);
 }

@@ -32,5 +32,6 @@ char	*ft_strjoin_sep(char *s1, char *s2, char sep)
 	while (*s2)
 		joined[i++] = *s2++;
 	joined[i] = 0;
+	free (s1);
 	return (joined);
 }

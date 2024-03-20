@@ -15,11 +15,14 @@
 int	check_args(int ac, t_pipex *pipex)
 {
 	if (ac != 5)
-		return (0);
+	{
+		ft_printerror("Error: Incorrect number of arguments\n");
+		exit (0);
+	}
 	pipex->fd = pipe(pipex->io_fds);
 	if (pipex->fd == -1)
 	{
-		ft_error_exit(0);
+		ft_error_exit(0, pipex);
 		return (0);
 	}
 	return (1);
@@ -42,6 +45,6 @@ void	get_path(char **envp, t_pipex *pipex)
 		i++;
 	}
 	if (!path)
-		ft_error_exit(0);
+		ft_error_exit(NO_PATH, pipex);
 	pipex->paths = ft_split(path, ':');
 }

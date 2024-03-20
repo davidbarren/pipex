@@ -6,7 +6,7 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/07 14:15:56 by dbarrene          #+#    #+#              #
-#    Updated: 2024/03/14 16:26:27 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/19 09:09:38 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJS= $(SRCS:.c=.o)
 all: $(NAME)
 
 $(OBJS): $(SRCS)
-	cc -Wall -Wextra -Werror -c $(@:.o=.c) -o $@
+	cc -Wall -Wextra -Werror -c -g $(@:.o=.c) -o $@
 
 $(NAME): $(LIBFTPATH) $(OBJS)
 	make -C $(LIBFTPATH)

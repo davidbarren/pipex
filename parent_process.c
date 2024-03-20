@@ -25,6 +25,6 @@ void	init_forks(char **av, char **envp, t_pipex *pipex)
 	if (pid[1] == 0)
 		child_output(av, pipex, envp);
 	waitpid(pid[1], NULL, 0);
-	// free_split(pipex->parsed_cmd);
+	free_split(pipex->paths);
 	return ;
 }
