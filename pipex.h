@@ -25,7 +25,7 @@ typedef struct s_pipex
 	int		fok_flag;
 	int		xok_flag;
 	int		path_index;
-	char 	**av;
+	char	**av;
 	int		av_index;
 }	t_pipex;
 
@@ -36,7 +36,6 @@ typedef enum s_errco
 	NO_PATH = -3,
 	BAD_PERM = -4,
 	NO_INPUT = -5,
-	
 }	t_errco;
 
 /* ************************************************************************** */
