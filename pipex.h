@@ -36,6 +36,7 @@ typedef enum s_errco
 	NO_PATH = -3,
 	BAD_PERM = -4,
 	NO_INPUT = -5,
+	FAKE_FILE = -6,
 }	t_errco;
 
 /* ************************************************************************** */

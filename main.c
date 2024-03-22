@@ -16,6 +16,8 @@ void	free_split(char **args)
 {
 	int	i;
 
+	if (!args)
+		return ;
 	i = 0;
 	while (args[i])
 		free(args[i++]);
@@ -30,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	piper.xok_flag = 0;
 	piper.av = argv;
 	if (!check_args(argc, &piper))
-		perror("Pipex:");
+		perror("pipex:");
 	get_path(envp, &piper);
 	init_forks(argv, envp, &piper);
 	return (0);

@@ -15,6 +15,7 @@
 void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 {
 	int	exec_st;
+	
 
 	pipex->av_index = an;
 	pipex->av = argv;
@@ -24,7 +25,7 @@ void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 		ft_error_exit(FAKE_CMD, pipex);
 	if (!pipex->xok_flag)
 	{
-		perror("Pipex");
+		perror("pipex");
 		exit (60);
 	}
 	exec_st = execve(pipex->paths[pipex->path_index], pipex->parsed_cmd, envp);
@@ -45,7 +46,7 @@ void	prep_command(char *cmd, t_pipex *pipex)
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK))
-			ft_error_exit(NO_INPUT, pipex);
+			ft_error_exit(BAD_PERM, pipex);
 		pipex->paths[pipex->path_index] = pipex->parsed_cmd[0];
 		return ;
 	}
@@ -66,10 +67,7 @@ void	child_input(char **av, t_pipex *pipex, char **envp)
 
 	fd_in = open(av[1], O_RDONLY);
 	if (fd_in == -1)
-	{
-		perror("Pipex");
-		exit(69);
-	}
+		ft_error_exit(FAKE_FILE, pipex);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	dup2(pipex->io_fds[1], STDOUT_FILENO);
@@ -84,14 +82,12 @@ void	child_output(char **av, t_pipex *pipex, char **envp)
 
 	fd_out = open(av[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
-	{
-		perror("Pipex");
-		exit (68);
-	}
+		ft_error_exit(FAKE_FILE, pipex);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 	dup2(pipex->io_fds[0], STDIN_FILENO);
 	close(pipex->io_fds[0]);
+	close(pipex->io_fds[1]);
 	exec_command(pipex, av, envp, 3);
 }
 

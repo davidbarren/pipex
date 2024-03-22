@@ -19,18 +19,21 @@ void	init_forks(char **av, char **envp, t_pipex *pipex)
 	pid[0] = fork();
 	if (pid[0] == -1)
 	{
-		ft_printerror("Put an error here because 1st fork failed");
+		perror("pipex:");
+		ft_error_exit(69, pipex);
 	}
 	if (pid[0] == 0)
 		child_input(av, pipex, envp);
-	close(pipex->io_fds[1]);
 	pid[1] = fork();
 	if (pid[1] == -1)
 	{
-		ft_printerror("Put an error here because 2nd fork failed");
+		perror("pipex:");
+		ft_error_exit(69, pipex);
 	}
 	if (pid[1] == 0)
 		child_output(av, pipex, envp);
+	close(pipex->io_fds[0]);
+	close(pipex->io_fds[1]);
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
 	if (pipex->paths)
