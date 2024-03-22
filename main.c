@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/07 14:15:40 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:09:21 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ int	main(int argc, char **argv, char **envp)
 	piper.fok_flag = 0;
 	piper.xok_flag = 0;
 	piper.av = argv;
-	if (!envp)
-		ft_error_exit(NO_PATH, &piper);
 	if (!check_args(argc, &piper))
 		perror("Pipex:");
 	get_path(envp, &piper);
 	init_forks(argv, envp, &piper);
-	// system("leaks pipex");
 	return (0);
 }

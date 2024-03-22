@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/11 11:05:36 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:10:50 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 {
 	int	exec_st;
-	int	i;
 
 	pipex->av_index = an;
 	pipex->av = argv;
-	i = 0;
 	prep_command(argv[an], pipex);
 	check_access(pipex);
 	if (!pipex->fok_flag)
 		ft_error_exit(FAKE_CMD, pipex);
 	if (!pipex->xok_flag)
-		ft_error_exit(EMPTY_STR, pipex);
+	{
+		perror("Pipex");
+		exit (60);
+	}
 	exec_st = execve(pipex->paths[pipex->path_index], pipex->parsed_cmd, envp);
-		if (exec_st == -1)
-			ft_error_exit(FAKE_CMD, pipex);
+	if (exec_st == -1)
+		ft_error_exit(FAKE_CMD, pipex);
 }
 
 void	prep_command(char *cmd, t_pipex *pipex)
@@ -40,17 +41,23 @@ void	prep_command(char *cmd, t_pipex *pipex)
 		ft_error_exit(FAKE_CMD, pipex);
 	if (cmd[0] == '\0')
 		ft_error_exit(EMPTY_STR, pipex);
-	if (!ft_strncmp(cmd, "./", 2))
-		cmd += 2;
 	pipex->parsed_cmd = ft_split(cmd, ' ');
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK))
+			ft_error_exit(NO_INPUT, pipex);
+		pipex->paths[pipex->path_index] = pipex->parsed_cmd[0];
+		return ;
+	}
 	if (!pipex->parsed_cmd)
 		ft_error_exit(0, pipex);
 	while (pipex->paths[i])
 	{
 		pipex->paths[i] = ft_strjoin_sep(pipex->paths[i], \
-		pipex->parsed_cmd[0], '/');
+			pipex->parsed_cmd[0], '/');
 		i++;
 	}
+	check_access(pipex);
 }
 
 void	child_input(char **av, t_pipex *pipex, char **envp)
@@ -59,7 +66,10 @@ void	child_input(char **av, t_pipex *pipex, char **envp)
 
 	fd_in = open(av[1], O_RDONLY);
 	if (fd_in == -1)
-		ft_error_exit(NO_INPUT, pipex);
+	{
+		perror("Pipex");
+		exit(69);
+	}
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	dup2(pipex->io_fds[1], STDOUT_FILENO);
@@ -72,9 +82,12 @@ void	child_output(char **av, t_pipex *pipex, char **envp)
 {
 	int	fd_out;
 
-	fd_out = open(av[4], O_RDWR | O_CREAT |O_TRUNC, 0644);
+	fd_out = open(av[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
-		ft_error_exit(NO_INPUT, pipex);
+	{
+		perror("Pipex");
+		exit (68);
+	}
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 	dup2(pipex->io_fds[0], STDIN_FILENO);

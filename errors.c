@@ -21,8 +21,8 @@ void	ft_error_exit(int errnum, t_pipex *pipex)
 		pipex->av[pipex->av_index]);
 	if (errnum == NO_INPUT)
 	{
-		ft_printerror("Pipex: no such file or directory: %s\n", pipex->av[1]);
-		exit (3);
+		ft_printerror("Pipex: no such file or directory: %s\n",
+			pipex->av[pipex->av_index]);
 	}
 	if (errnum == NO_PATH)
 	{

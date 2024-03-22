@@ -6,7 +6,7 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/07 14:15:56 by dbarrene          #+#    #+#              #
-#    Updated: 2024/03/20 17:06:32 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/22 14:19:12 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,6 @@ parent_process.c\
 child_process.c\
 helper_funcs.c\
 
-
-
 OBJS= $(SRCS:.c=.o)
 
 all: $(NAME)
@@ -35,7 +33,7 @@ $(OBJS): $(SRCS)
 
 $(NAME): $(LIBFTPATH) $(OBJS)
 	make -C $(LIBFTPATH)
-	cc -Wall -Wextra -Werror $(SRCS) $(LIBFT) -o $@
+	cc -Wall -Wextra -Werror -g $(SRCS) $(LIBFT) -o $@
 
 clean:
 	rm -f $(OBJS)
