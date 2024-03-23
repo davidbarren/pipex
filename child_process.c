@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/22 15:10:50 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/23 20:06:53 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 {
 	int	exec_st;
-	
 
 	pipex->av_index = an;
 	pipex->av = argv;
@@ -37,12 +36,10 @@ void	prep_command(char *cmd, t_pipex *pipex)
 {
 	int	i;
 
+	pre_split_checks(cmd, pipex);
 	i = 0;
-	if (!pipex->paths)
-		ft_error_exit(FAKE_CMD, pipex);
-	if (cmd[0] == '\0')
-		ft_error_exit(EMPTY_STR, pipex);
-	pipex->parsed_cmd = ft_split(cmd, ' ');
+	pipex->parsed_cmd = split_quotes(cmd, ' ', '\"', pipex->sp);
+	pipex->parsed_fl = 1;
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK))
@@ -57,8 +54,8 @@ void	prep_command(char *cmd, t_pipex *pipex)
 		pipex->paths[i] = ft_strjoin_sep(pipex->paths[i], \
 			pipex->parsed_cmd[0], '/');
 		i++;
+		pipex->paths_fl = 1;
 	}
-	check_access(pipex);
 }
 
 void	child_input(char **av, t_pipex *pipex, char **envp)

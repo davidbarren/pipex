@@ -6,7 +6,7 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/24 10:40:52 by dbarrene          #+#    #+#              #
-#    Updated: 2024/01/24 10:41:12 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/23 13:45:19 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ ft_put_unsigned_error.c\
 ft_putchar_mod_error.c\
 ft_putnbr_mod_error.c\
 ft_putstr_mod_error.c\
+ft_split_quotes.c\
 
 CFLAGS = -Wall -Wextra -Werror -MMD -g
 INCFLAGS = -Iincludes

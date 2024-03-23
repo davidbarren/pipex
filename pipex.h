@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/07 12:52:51 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/23 19:58:12 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -27,6 +27,9 @@ typedef struct s_pipex
 	int		path_index;
 	char	**av;
 	int		av_index;
+	t_split	*sp;
+	int		paths_fl;
+	int		parsed_fl;
 }	t_pipex;
 
 typedef enum s_errco
@@ -50,7 +53,7 @@ void	free_split(char **args);
 /*  Parent_Process.c                                                          */
 /* ************************************************************************** */
 void	init_forks(char **av, char **envp, t_pipex *pipex);
-char	*ft_strjoin_sep(char *s1, char *s2, char sep);
+char	*ft_strjoin_sep(char *s1, char *s2, char sep); //helper_funcs.c
 /* ************************************************************************** */
 /*  Child_process.c                                                          */
 /* ************************************************************************** */
@@ -59,4 +62,6 @@ void	child_input(char **av, t_pipex *pipex, char **envp);
 void	child_output(char **av, t_pipex *pipex, char **envp);
 void	prep_command(char *cmd, t_pipex *pipex);
 void	check_access(t_pipex *pipex);
+void	pre_split_checks(char *cmd, t_pipex *pipex); //helper_funcs.c
+
 #endif
