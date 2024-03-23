@@ -6,39 +6,60 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/07 14:15:56 by dbarrene          #+#    #+#              #
-#    Updated: 2024/03/22 14:19:12 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/23 20:58:40 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = pipex
 
-LIBFTPATH = ./libft
+CC	= cc
+CFLAGS = -Wall -Wextra -Werror
+
+SRCDIR = src
+OBJDIR = obj
+LIBFTPATH = libft
 
 LIBFT = $(LIBFTPATH)/libft.a
 
-SRCS = main.c\
-arg_checks.c\
-errors.c\
-parent_process.c\
-child_process.c\
-helper_funcs.c\
+SRCS = $(SRCDIR)/main.c\
 
-OBJS= $(SRCS:.c=.o)
+#BSRCS = $(SRCDIR)/main_bonus.c
+
+CSRCS = $(SRCDIR)/arg_checks.c\
+	$(SRCDIR)/errors.c\
+	$(SRCDIR)/parent_process.c\
+	$(SRCDIR)/child_process.c\
+	$(SRCDIR)/helper_funcs.c\
+
+
+OBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
+#BOBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(BSRCS))
+COBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(CSRCS))
 
 all: $(NAME)
 
-$(OBJS): $(SRCS)
-	cc -Wall -Wextra -Werror -c -g $(@:.o=.c) -o $@
+$(NAME): $(LIBFT) $(OBJDIR) $(COBJS) $(OBJS)
+	@echo $(NAME) is being compiled...
+	@$(CC) $(CFLAGS) $(OBJS) $(COBJS) -L$(LIBFTPATH) -lft -o $(NAME)
 
-$(NAME): $(LIBFTPATH) $(OBJS)
-	make -C $(LIBFTPATH)
-	cc -Wall -Wextra -Werror -g $(SRCS) $(LIBFT) -o $@
+$(LIBFT):
+	@make -C $(LIBFTPATH)
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@echo compiling $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make clean -C $(LIBFTPATH)
+	@make -C $(LIBFTPATH) clean
+	@rm -rf $(OBJDIR)
+	@echo Removed Objs
+
 fclean: clean
-	rm -f $(NAME)
-	make fclean -C $(LIBFTPATH)
-re: fclean $(NAME)
+	@make -C $(LIBFTPATH) fclean
+	@rm -rf $(NAME)
+	@echo Removed $(NAME)
+re: fclean all

@@ -6,12 +6,12 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/23 19:58:12 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/23 20:55:43 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
 # define PIPEX_H
-# include "libft/includes/libft.h"
+# include "../libft/includes/libft.h"
 # include <fcntl.h>
 # include <string.h>
 # include <stdio.h>
