@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/24 16:50:44 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/24 17:33:53 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_BONUS_H
@@ -19,20 +19,21 @@
 typedef struct s_pipex
 {
 	int		**io_fds;
-	int		newpipe_fd[2];
-	int		fd;
+	pid_t	*child_pid;
 	char	**paths;
 	char	**parsed_cmd;
 	int		fok_flag;
 	int		xok_flag;
 	int		path_index;
 	char	**av;
+	int		ac;
 	int		av_index;
 	t_split	*sp;
 	int		paths_fl;
 	int		parsed_fl;
 	int		pipe_fl;
 	int		pipecount;
+	int		pid_index;
 }	t_pipex;
 
 typedef enum s_errco
@@ -43,6 +44,7 @@ typedef enum s_errco
 	BAD_PERM = -4,
 	NO_INPUT = -5,
 	FAKE_FILE = -6,
+	MALLOC_FAIL = -7,
 }	t_errco;
 
 /* ************************************************************************** */
@@ -53,12 +55,13 @@ void	ft_error_exit(int errnum, t_pipex *pipex);
 void	get_path(char **envp, t_pipex *pipex);
 void	free_split(char **args);
 void	free_pipes(int **data);
+void	close_pipes(t_pipex *pipex);
 /* ************************************************************************** */
 /*  Parent_Process.c                                                          */
 /* ************************************************************************** */
 void	init_forks(char **av, char **envp, t_pipex *pipex);
 char	*ft_strjoin_sep(char *s1, char *s2, char sep);
-void	open_pipes(int ac, t_pipex* pipex);
+void	open_pipes(t_pipex* pipex);
 /* ************************************************************************** */
 /*  Child_process.c                                                          */
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/24 16:54:52 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/24 17:35:48 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	main(int argc, char **argv, char **envp)
 	ft_memset(&piper, 0, sizeof(t_pipex));
 	ft_memset(&st, 0, sizeof(t_split));
 	piper.sp = &st;
-	piper.fok_flag = 0;
-	piper.xok_flag = 0;
 	piper.av = argv;
-	open_pipes(argc, &piper);
+	piper.ac = argc;
+	open_pipes(&piper);
 	get_path(envp, &piper);
 	init_forks(argv, envp, &piper);
+	close_pipes(&piper);
 	return (0);
 }
 
@@ -54,12 +54,12 @@ void	free_pipes(int **data)
 	return ;
 }
 
-void	open_pipes(int ac, t_pipex* pipex)
+void	open_pipes(t_pipex* pipex)
 {
 	int	i;
-
+	int fd;
 	i = 0;
-	pipex->pipecount = (ac - 3);
+	pipex->pipecount = (pipex->ac - 3);
 	pipex->io_fds = malloc(pipex->pipecount * sizeof(int *));
 	if (!pipex->io_fds)
 	{
@@ -69,8 +69,8 @@ void	open_pipes(int ac, t_pipex* pipex)
 	while (i <= pipex->pipecount)
 	{
 		pipex->io_fds[i] = malloc (2 * sizeof (int));
-		pipex->fd = pipe(pipex->io_fds[i]);
-		if (pipex->fd == -1)
+		fd = pipe(pipex->io_fds[i]);
+		if (fd == -1)
 		{
 			perror("pipex:");
 			free_pipes(pipex->io_fds);
