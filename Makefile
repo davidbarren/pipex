@@ -6,7 +6,7 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/07 14:15:56 by dbarrene          #+#    #+#              #
-#    Updated: 2024/03/23 20:58:40 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/23 21:19:45 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,6 @@ $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@echo compiling $@
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
