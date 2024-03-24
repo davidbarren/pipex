@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:02:40 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/23 20:15:08 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:48:04 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static int	count_words(const char *str, char c, char q)
 		if (*str == c)
 		{
 			skip_delims(&str, c);
-			if (*str == q)
+			if ((*str == q) || (*str == '\''))
 			{
 				count++;
 				str++;
-				while (*str != q)
+				while (*str != q && *str != '\'')
 					str++;
 			}
 			else if (*str)
@@ -65,12 +65,12 @@ static void	ft_split_quotes(const char	*str, char delim, char q, t_split *st)
 	while (*str && st->wc > st->i)
 	{
 		st->j = 0;
-		if (*str != q)
+		if (*str != q && *str != '\'')
 			skip_delims(&str, delim);
-		if (str[st->j] == q)
+		if (str[st->j] == q || str[st->j] == '\'')
 		{
 			st->j++;
-			while (str[st->j] != q)
+			while (str[st->j] != q && str[st->j] != '\'')
 				st->j++;
 			st->j++;
 			st->split_arr[st->i++] = ft_substr(str, 1, ((st->j) - 2));

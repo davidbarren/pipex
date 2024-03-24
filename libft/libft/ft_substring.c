@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_substr_full.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 18:05:03 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/24 15:14:07 by dbarrene         ###   ########.fr       */
+/*   Created: 2024/03/24 15:14:26 by dbarrene          #+#    #+#             */
+/*   Updated: 2024/03/24 15:16:46 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substring(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
 	size_t	i;
 	size_t	l;
 
 	if (!s)
-		return ((char *)ft_calloc(1, 1));
+		return (NULL);
 	l = ft_strlen(s);
 	if (start > l)
-		return ((char *)ft_calloc(1, 1));
+		return (NULL);
 	i = 0;
 	l = ft_strlen(s + start);
 	if (l > len)
