@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 16:11:44 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:23:08 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	piper;
 	t_split	st;
 
+	if (!*envp)
+		return (ft_printerror("pipex: Environment not found"));
 	ft_memset(&piper, 0, sizeof(t_pipex));
 	ft_memset(&st, 0, sizeof(t_split));
 	piper.sp = &st;

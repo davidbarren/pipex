@@ -6,7 +6,7 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/07 14:15:56 by dbarrene          #+#    #+#              #
-#    Updated: 2024/03/25 14:58:29 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/25 17:58:00 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = pipex
 
 CC	= cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 SRCDIR = src
 OBJDIR = obj
@@ -24,7 +24,9 @@ LIBFT = $(LIBFTPATH)/libft.a
 
 SRCS = $(SRCDIR)/main.c\
 
-#BSRCS = $(SRCDIR)/main_bonus.c
+BSRCS = $(SRCDIR)/main_bonus.c\
+		$(SRCDIR)/child_bonus.c\
+		$(SRCDIR)/bonus_utils.c\
 
 CSRCS = $(SRCDIR)/arg_checks.c\
 	$(SRCDIR)/errors.c\
@@ -34,7 +36,7 @@ CSRCS = $(SRCDIR)/arg_checks.c\
 
 
 OBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
-#BOBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(BSRCS))
+BOBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(BSRCS))
 COBJS= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(CSRCS))
 
 all: $(NAME)
@@ -52,6 +54,12 @@ $(OBJDIR):
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+bonus: .bonus
+
+.bonus: $(LIBFT) $(OBJDIR) $(BOBJS) $(BSRCS) $(COBJS) $(OBJS)
+	@echo $(NAME) is being compiled with bonuses...
+	@$(CC) $(CFLAGS) $(COBJS) $(BOBJS) -L$(LIBFTPATH) -lft -o $(NAME)
+	@touch .bonus
 
 clean:
 	@make -C $(LIBFTPATH) clean

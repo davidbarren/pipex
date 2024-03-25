@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 16:12:44 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:30:54 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	piper;
 	t_split	st;
 
+	if (!*envp)
+		return (ft_printerror("pipex: Environment not found"));
 	ft_memset(&piper, 0, sizeof(t_pipex));
 	ft_memset(&st, 0, sizeof(t_split));
 	piper.sp = &st;
@@ -36,8 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	piper.ac = argc;
 	open_pipes(&piper);
 	get_path(envp, &piper);
-	init_forks(argv, envp, &piper);
-	close_pipes(&piper);
+	spawn_children(envp, &piper);
 	return (0);
 }
 
@@ -60,8 +61,8 @@ void	open_pipes(t_pipex *pipex)
 	int	fd;
 
 	i = 0;
-	pipex->pipecount = (pipex->ac - 3);
-	pipex->io_fds = malloc(pipex->pipecount * sizeof(int *));
+	pipex->pipecount = (pipex->ac - 4);
+	pipex->io_fds = ft_calloc(pipex->pipecount + 1, sizeof(int *));
 	if (!pipex->io_fds)
 	{
 		perror("pipex:");
@@ -89,22 +90,23 @@ void	close_pipes(t_pipex *pipex)
 
 	i = 0;
 	status = 0;
-	while (i <= pipex->pipecount)
-	{
-		status = close(pipex->io_fds[i][0]);
-		if (status == -1)
-		{
-			perror("pipex:");
-			ft_error_exit(0, pipex);
-		}
-		status = close(pipex->io_fds[i][1]);
-		if (status == -1)
-		{
-			perror("pipex:");
-			ft_error_exit(0, pipex);
-		}
-		i++;
-	}
 	if (pipex->pipe_fl == 1)
-		free_pipes(pipex->io_fds);
+	{
+		while (i < pipex->pipecount)
+		{
+			status = close(pipex->io_fds[i][0]);
+			if (status == -1)
+			{
+				perror("pipex:");
+				ft_error_exit(0, pipex);
+			}
+			status = close(pipex->io_fds[i][1]);
+			if (status == -1)
+			{
+				perror("pipex:");
+				ft_error_exit(0, pipex);
+			}
+			free(pipex->io_fds[i++]);
+		}
+	}
 }

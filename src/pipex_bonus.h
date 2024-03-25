@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 16:01:39 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:15:59 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_BONUS_H
@@ -34,6 +34,7 @@ typedef struct s_pipex
 	int		pipe_fl;
 	int		pipecount;
 	int		pid_index;
+	int		iter;
 }	t_pipex;
 
 typedef enum e_errco
