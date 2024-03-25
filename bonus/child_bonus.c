@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   child_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 14:44:46 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:11:56 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 {
@@ -58,7 +58,7 @@ void	prep_command(char *cmd, t_pipex *pipex)
 	}
 }
 
-void	child_input(char **av, t_pipex *pipex, char **envp)
+void	child_in_bonus(char **av, t_pipex *pipex, char **envp)
 {
 	int	fd_in;
 
@@ -67,25 +67,23 @@ void	child_input(char **av, t_pipex *pipex, char **envp)
 		ft_error_exit(FAKE_FILE, pipex);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
-	dup2(pipex->io_fds[1], STDOUT_FILENO);
-	close(pipex->io_fds[1]);
-	close(pipex->io_fds[0]);
+	dup2(pipex->io_fds[0][1], STDOUT_FILENO);
+	close_pipes(pipex);
 	exec_command(pipex, av, envp, 2);
 }
 
-void	child_output(char **av, t_pipex *pipex, char **envp)
+void	child_out_bonus(char **av, t_pipex *pipex, char **envp)
 {
 	int	fd_out;
 
-	fd_out = open(av[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd_out = open(av[pipex->ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
 		ft_error_exit(FAKE_FILE, pipex);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
-	dup2(pipex->io_fds[0], STDIN_FILENO);
-	close(pipex->io_fds[0]);
-	close(pipex->io_fds[1]);
-	exec_command(pipex, av, envp, 3);
+	dup2(pipex->io_fds[pipex->pid_index - 1][0], STDIN_FILENO);
+	close_pipes(pipex);
+	exec_command(pipex, av, envp, pipex->av_index);
 }
 
 void	check_access(t_pipex *pipex)

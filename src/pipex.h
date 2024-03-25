@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/23 20:55:43 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:12:00 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -32,7 +32,7 @@ typedef struct s_pipex
 	int		parsed_fl;
 }	t_pipex;
 
-typedef enum s_errco
+typedef enum e_errco
 {
 	EMPTY_STR = -1,
 	FAKE_CMD = -2,

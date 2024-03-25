@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/24 17:35:48 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:12:44 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,18 @@ void	free_pipes(int **data)
 	return ;
 }
 
-void	open_pipes(t_pipex* pipex)
+void	open_pipes(t_pipex *pipex)
 {
 	int	i;
-	int fd;
+	int	fd;
+
 	i = 0;
 	pipex->pipecount = (pipex->ac - 3);
 	pipex->io_fds = malloc(pipex->pipecount * sizeof(int *));
 	if (!pipex->io_fds)
 	{
 		perror("pipex:");
-		ft_error_exit(0, pipex);	
+		ft_error_exit(0, pipex);
 	}
 	while (i <= pipex->pipecount)
 	{
@@ -87,6 +88,7 @@ void	close_pipes(t_pipex *pipex)
 	int	status;
 
 	i = 0;
+	status = 0;
 	while (i <= pipex->pipecount)
 	{
 		status = close(pipex->io_fds[i][0]);

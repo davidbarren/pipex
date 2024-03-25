@@ -6,12 +6,12 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/24 18:21:01 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:01:39 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
-# include "../../libft/includes/libft.h"
+# include "../libft/includes/libft.h"
 # include <fcntl.h>
 # include <string.h>
 # include <stdio.h>
@@ -36,7 +36,7 @@ typedef struct s_pipex
 	int		pid_index;
 }	t_pipex;
 
-typedef enum s_errco
+typedef enum e_errco
 {
 	EMPTY_STR = -1,
 	FAKE_CMD = -2,
@@ -61,15 +61,19 @@ void	close_pipes(t_pipex *pipex);
 /* ************************************************************************** */
 void	init_forks(char **av, char **envp, t_pipex *pipex);
 char	*ft_strjoin_sep(char *s1, char *s2, char sep);
-void	open_pipes(t_pipex* pipex);
+void	open_pipes(t_pipex *pipex);
 /* ************************************************************************** */
 /*  Child_process.c                                                          */
 /* ************************************************************************** */
 void	exec_command(t_pipex *pipex, char **argv, char **envp, int an);
-void	child_input(char **av, t_pipex *pipex, char **envp);
-void	child_output(char **av, t_pipex *pipex, char **envp);
+void	child_out_bonus(char **av, t_pipex *pipex, char **envp);
 void	prep_command(char *cmd, t_pipex *pipex);
 void	check_access(t_pipex *pipex);
-void	pre_split_checks(char *cmd, t_pipex *pipex); 
-
+void	pre_split_checks(char *cmd, t_pipex *pipex);
+void	child_in_bonus(char **av, t_pipex *pipex, char **envp);
+/* ************************************************************************** */
+/*  bonus_utils.c                                                             */
+/* ************************************************************************** */
+void	child_generic(t_pipex *pipex, char **envp);
+void	spawn_children(char **envp, t_pipex *pipex);
 #endif
