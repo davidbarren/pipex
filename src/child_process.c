@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 18:47:23 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/27 20:48:21 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	exec_command(t_pipex *pipex, char **argv, char **envp, int an)
 	}
 	exec_st = execve(pipex->paths[pipex->path_index], pipex->parsed_cmd, envp);
 	if (exec_st == -1)
-		ft_error_exit(FAKE_CMD, pipex);
+	{
+		perror("pipex");
+		ft_error_exit(0, pipex);
+	}
 }
 
 void	prep_command(char *cmd, t_pipex *pipex)
@@ -42,7 +45,7 @@ void	prep_command(char *cmd, t_pipex *pipex)
 	pipex->parsed_fl = 1;
 	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd, X_OK))
+		if (access(pipex->parsed_cmd[0], X_OK))
 			ft_error_exit(BAD_PERM, pipex);
 		pipex->paths[pipex->path_index] = pipex->parsed_cmd[0];
 		return ;

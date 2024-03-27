@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:29 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/11 11:05:30 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:06:05 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void	init_forks(char **av, char **envp, t_pipex *pipex)
 		child_input(av, pipex, envp);
 	pid[1] = fork();
 	if (pid[1] == -1)
-	{
 		perror("pipex:");
-		ft_error_exit(69, pipex);
-	}
 	if (pid[1] == 0)
 		child_output(av, pipex, envp);
 	close(pipex->io_fds[0]);
@@ -40,3 +37,17 @@ void	init_forks(char **av, char **envp, t_pipex *pipex)
 		free_split(pipex->paths);
 	return ;
 }
+
+void	free_path_remainders(t_pipex *pipex)
+{
+	int	i;
+	int	remainder;
+
+
+	i = 0;
+	remainder = pipex->path_index + 1;
+	while (i < pipex->path_index)
+		free(pipex->paths[i++]);
+	while (pipex->paths[remainder])
+		free(pipex->paths[remainder++]);
+}	

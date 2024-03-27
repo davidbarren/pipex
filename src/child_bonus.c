@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 18:48:04 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:59:26 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	child_out_bonus(char **av, t_pipex *pipex, char **envp)
 
 void	child_generic(t_pipex *pipex, char **envp)
 {
-	if (!pipex->pid_index)
+	if (!pipex->pid_index && !pipex->hdoc_flag)
 		child_in_bonus(pipex->av, pipex, envp);
 	if (pipex->pid_index == (pipex->ac - 4))
 		child_out_bonus(pipex->av, pipex, envp);

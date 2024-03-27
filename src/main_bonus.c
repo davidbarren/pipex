@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 18:30:54 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:58:41 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	open_pipes(&piper);
 	get_path(envp, &piper);
 	spawn_children(envp, &piper);
+	free(piper.child_pid);
 	return (0);
 }
 
