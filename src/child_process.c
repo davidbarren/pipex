@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/27 20:48:21 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:59:27 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,18 @@ void	child_input(char **av, t_pipex *pipex, char **envp)
 {
 	int	fd_in;
 
-	fd_in = open(av[1], O_RDONLY);
-	if (fd_in == -1)
+	fd_in = access(av[1], F_OK);
+	if (fd_in)
+	{
+		pipex->av_index = 1;
 		ft_error_exit(FAKE_FILE, pipex);
+	}
+	fd_in = open(av[1], O_RDONLY, 0444);
+	if (fd_in == -1)
+	{
+		pipex->av_index = 1;
+		ft_error_exit(BAD_PERM, pipex);
+	}
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	dup2(pipex->io_fds[1], STDOUT_FILENO);
@@ -82,7 +91,10 @@ void	child_output(char **av, t_pipex *pipex, char **envp)
 
 	fd_out = open(av[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
-		ft_error_exit(FAKE_FILE, pipex);
+	{
+		pipex->av_index = 4;
+		ft_error_exit(BAD_PERM, pipex);
+	}
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 	dup2(pipex->io_fds[0], STDIN_FILENO);

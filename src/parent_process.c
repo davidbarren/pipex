@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:29 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/27 18:06:05 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:00:07 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ void	free_path_remainders(t_pipex *pipex)
 	int	i;
 	int	remainder;
 
-
 	i = 0;
 	remainder = pipex->path_index + 1;
 	while (i < pipex->path_index)
 		free(pipex->paths[i++]);
 	while (pipex->paths[remainder])
 		free(pipex->paths[remainder++]);
-}	
+}

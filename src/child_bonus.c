@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:05:34 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/27 17:59:26 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:59:08 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	child_in_bonus(char **av, t_pipex *pipex, char **envp)
 	int	fd_in;
 	int	status;
 
+	fd_in = access(av[1], F_OK);
+	if (fd_in)
+		ft_error_exit_b(FAKE_FILE, pipex, 1);
 	fd_in = open(av[1], O_RDONLY);
 	if (fd_in == -1)
-		ft_error_exit(FAKE_FILE, pipex);
+		ft_error_exit_b(BAD_PERM, pipex, 1);
 	status = dup2(fd_in, STDIN_FILENO);
 	if (status == -1)
 	{
@@ -42,7 +45,10 @@ void	child_out_bonus(char **av, t_pipex *pipex, char **envp)
 
 	fd_out = open(av[pipex->ac - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
-		ft_error_exit(FAKE_FILE, pipex);
+	{
+		close_pipes(pipex);
+		ft_error_exit_b(BAD_PERM, pipex, pipex->ac - 1);
+	}
 	dup2(fd_out, STDOUT_FILENO);
 	dup2(pipex->io_fds[pipex->pid_index - 1][0], STDIN_FILENO);
 	close_pipes(pipex);

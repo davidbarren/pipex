@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/27 17:51:38 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:41:55 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_BONUS_H
@@ -55,6 +55,7 @@ typedef enum e_errco
 int		check_args(int ac, t_pipex *pipex);
 void	ft_error_exit(int errnum, t_pipex *pipex);
 void	get_path(char **envp, t_pipex *pipex);
+void	ft_error_exit_b(int errnum, t_pipex *pipex, int arg);
 /* ************************************************************************** */
 /*  Parent_Process.c                                                          */
 /* ************************************************************************** */

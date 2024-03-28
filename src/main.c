@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:15:39 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/26 06:17:35 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:56:56 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_memset(&st, 0, sizeof(t_split));
 	piper.sp = &st;
 	piper.av = argv;
+	piper.ac = argc;
 	if (!check_args(argc, &piper))
 		perror("pipex:");
 	get_path(envp, &piper);

@@ -6,7 +6,7 @@
 /*   By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:51:17 by dbarrene          #+#    #+#             */
-/*   Updated: 2024/03/25 16:12:00 by dbarrene         ###   ########.fr       */
+/*   Updated: 2024/03/28 14:50:06 by dbarrene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -27,6 +27,7 @@ typedef struct s_pipex
 	int		path_index;
 	char	**av;
 	int		av_index;
+	int		ac;
 	t_split	*sp;
 	int		paths_fl;
 	int		parsed_fl;

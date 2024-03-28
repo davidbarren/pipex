@@ -6,7 +6,7 @@
 #    By: dbarrene <dbarrene@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/07 14:15:56 by dbarrene          #+#    #+#              #
-#    Updated: 2024/03/25 17:58:00 by dbarrene         ###   ########.fr        #
+#    Updated: 2024/03/28 16:42:34 by dbarrene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS = $(SRCDIR)/main.c\
 BSRCS = $(SRCDIR)/main_bonus.c\
 		$(SRCDIR)/child_bonus.c\
 		$(SRCDIR)/bonus_utils.c\
+		$(SRCDIR)/bonus_errors.c\
 
 CSRCS = $(SRCDIR)/arg_checks.c\
 	$(SRCDIR)/errors.c\
